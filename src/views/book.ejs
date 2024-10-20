@@ -1,0 +1,49 @@
+<%- include('partials/header.ejs'); -%>
+<!-- Book Details -->
+ <main class="container mt-5">
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <!-- Book cover -->
+        <img src="<%= book.cover %>" alt="<%= book.title %> Cover" class="img-fluid shadow-sm" style="height: 400px; object-fit: cover;">
+      </div>
+
+      <div class="col-md-8">
+        <h1 class="mb-3"><%= book.title %></h1>
+        <h5 class="text-muted">By <%= book.authors ? book.authors.join(', ') : 'Unknown Author' %></h5>
+
+        <!-- Published date and page count -->
+        <ul class="list-group list-group-flush mt-4">
+          <li class="list-group-item"><strong>Published:</strong> <%= book.publishedDate || 'N/A' %></li>
+          <li class="list-group-item"><strong>Pages:</strong> <%= book.pageCount || 'N/A' %></li>
+          <li class="list-group-item"><strong>Rating:</strong> 
+            <% if (book.rating) { %>
+              <%= book.rating %> / 5
+            <% } else { %>
+              Not Rated
+            <% } %>
+          </li>
+        </ul>
+
+        <!-- Book description -->
+        <div class="mt-4">
+          <h4>Description</h4>
+          <p><%= book.description ? book.description : 'No description available.' %></p>
+        </div>
+
+        <!-- User description (if available) -->
+        <% if (book.userDescription) { %>
+          <div class="mt-4">
+            <h4>User Description</h4>
+            <p><%= book.userDescription %></p>
+          </div>
+        <% } %>
+
+        <!-- Updated at timestamp -->
+        <p class="text-muted small mt-3">Last updated: <%= new Date(book.updatedAt).toLocaleDateString() %></p>
+
+        <!-- Edit Button -->
+        <a href="/books/<%= book.isbn %>/edit" class="btn btn-secondary mt-3">Edit Book</a>
+      </div>
+    </div>
+  </main>
+  <%- include('partials/footer.ejs'); -%>

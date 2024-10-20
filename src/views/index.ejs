@@ -1,0 +1,64 @@
+<%- include('partials/header.ejs'); -%>
+<div class="container mt-5">
+  <!-- Header with name and description -->
+  <div class="text-center mb-5">
+    <h1>Jakub's Book Collection</h1>
+    <p class="lead">Explore a curated collection of books and their detailed descriptions</p>
+  </div>
+
+  <!-- EJS loop to display book covers and descriptions -->
+  <div class="row mt-4">
+    <% books.forEach(function(book) { %>
+      <div class="col-md-4 mb-4 d-flex">
+        <div class="card shadow-sm">
+          <!-- Book cover image -->
+          <img src="<%= book.cover %>" class="card-img-top" alt="Book Cover" style="height: 300px; object-fit: cover;">
+          
+          <!-- Book details -->
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title"><%= book.title %></h5>
+            <h6 class="card-subtitle text-muted mb-2">By <%= book.authors ? book.authors.join(', ') : 'Unknown Author' %></h6>
+
+            <!-- Published date, page count, and rating -->
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item">
+                <strong>Published:</strong> <%= book.publishedDate || 'N/A' %>
+              </li>
+              <li class="list-group-item">
+                <strong>Pages:</strong> <%= book.pageCount || 'N/A' %>
+              </li>
+              <li class="list-group-item">
+                <strong>Rating:</strong> 
+                <% if (book.rating) { %>
+                  <%= book.rating %> / 5
+                <% } else { %>
+                  Not Rated
+                <% } %>
+              </li>
+            </ul>
+
+            <!-- Book description -->
+            <p class="card-text mb-2"><%= book.description ? book.description : 'No description available.' %></p>
+
+            <!-- User description (if available) -->
+            <% if (book.userDescription) { %>
+              <p class="text-muted"><em>User description:</em> <%= book.userDescription %></p>
+            <% } %>
+             <!-- View and Edit buttons -->
+          <div class="mt-auto d-flex justify-content-between">
+            <!-- View button -->
+            <a href="/books/<%= book.id %>" class="btn btn-primary">View</a> <!-- Replace with your view route -->
+            
+            <!-- Edit button -->
+            <a href="/books/<%= book.id %>/edit" class="btn btn-secondary">Edit</a> <!-- Replace with your edit route -->
+            </div>  
+            <!-- Updated at timestamp -->
+            <p class="text-end text-muted small">Updated: <%= new Date(book.updatedAt).toLocaleDateString() %></p>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<%- include('partials/footer.ejs'); -%>

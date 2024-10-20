@@ -1,0 +1,25 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3003:3003"
+    env_file: .env
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app
+
+  db:
+    build:
+      context: ./db
+    env_file: .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
